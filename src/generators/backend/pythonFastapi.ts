@@ -1,5 +1,5 @@
 import type { ParsedApiSpec } from '../../types';
-import { generateMockJsonString, getFirstRequiredField } from '../mockDataGenerator';export const pythonFastapiGenerator = {
+import { getFirstRequiredField } from '../mockDataGenerator';export const pythonFastapiGenerator = {
   generateTest(spec: ParsedApiSpec): string {
     return `import pytest
 from httpx import AsyncClient

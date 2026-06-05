@@ -5,10 +5,7 @@ export const reactTypescriptGenerator = {
   generateTest(spec: ParsedApiSpec): string {
     const reqField = getFirstRequiredField(spec.inputSchema);
     const fieldName = reqField ? reqField.name : 'dummy';
-    const happyReqBody = generateMockJsonString(spec.inputSchema);
     const happyResBody = generateMockJsonString(spec.outputSchema);
-    const nullBody = generateMockJsonString(spec.inputSchema, { [fieldName]: null });
-    const emptyStringBody = generateMockJsonString(spec.inputSchema, { [fieldName]: '' });
     const missingBody = generateMockJsonString(spec.inputSchema, { [fieldName]: undefined });
 
     const url = spec.url;
