@@ -1,5 +1,5 @@
 import type { ParsedApiSpec } from '../../types';
-import { generateMockJsonString, generatePythonDict, getFirstRequiredField } from '../mockDataGenerator';export const rustActixGenerator = {
+import { generateMockJsonString, getFirstRequiredField } from '../mockDataGenerator';export const rustActixGenerator = {
   generateTest(spec: ParsedApiSpec): string {
     return `#[cfg(test)]
 mod tests {

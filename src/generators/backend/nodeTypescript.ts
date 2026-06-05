@@ -1,5 +1,5 @@
 import type { ParsedApiSpec } from '../../types';
-import { generateMockJsonString, generatePythonDict, getFirstRequiredField } from '../mockDataGenerator';export const nodeTypescriptGenerator = {
+import { generateMockJsonString, getFirstRequiredField } from '../mockDataGenerator';export const nodeTypescriptGenerator = {
   generateTest(spec: ParsedApiSpec): string {
     return `import request from 'supertest';
 import { app } from '../app';

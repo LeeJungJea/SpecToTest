@@ -1,5 +1,5 @@
 import type { ParsedApiSpec } from '../../types';
-import { generateMockJsonString, generatePythonDict, getFirstRequiredField } from '../mockDataGenerator';export const phpLaravelGenerator = {
+import { generateMockJsonString, getFirstRequiredField } from '../mockDataGenerator';export const phpLaravelGenerator = {
   generateTest(spec: ParsedApiSpec): string {
     return `<?php
 

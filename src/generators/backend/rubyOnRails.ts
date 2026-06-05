@@ -1,5 +1,5 @@
 import type { ParsedApiSpec } from '../../types';
-import { generateMockJsonString, generatePythonDict, getFirstRequiredField } from '../mockDataGenerator';export const rubyOnRailsGenerator = {
+import { generateMockJsonString, getFirstRequiredField } from '../mockDataGenerator';export const rubyOnRailsGenerator = {
   generateTest(spec: ParsedApiSpec): string {
     return `require 'rails_helper'
 

@@ -7,6 +7,8 @@ import { FieldTableEditor, BodyTableEditor } from './EditorComponents';
 
 interface InputSectionProps {
   onSpecChange: (spec: ParsedApiSpec) => void;
+  resetTrigger?: number;
+  generatorSection?: React.ReactNode;
 }
 
 function rowsToSchema(rows: FieldRow[]): SchemaField[] {
@@ -35,7 +37,7 @@ const REQUEST_TABS: Array<{ key: RequestTabKey; title: string }> = [
   { key: 'response', title: 'Response' }
 ];
 
-const InputSection: React.FC<InputSectionProps> = ({ onSpecChange }) => {
+export const InputSection: React.FC<InputSectionProps> = ({ onSpecChange, generatorSection, resetTrigger }) => {
   const [activeTab, setActiveTab] = useState<'MANUAL' | 'OPENAPI'>('MANUAL');
   const [openApiJson, setOpenApiJson] = useState('');
   const [endpoints, setEndpoints] = useState<OpenAPIEndpoint[]>([]);
@@ -103,12 +105,27 @@ const InputSection: React.FC<InputSectionProps> = ({ onSpecChange }) => {
     });
   }, [method, url, bodyType, responseType, headerRows, pathParamRows, queryParamRows, bodyRows, responseRows, onSpecChange]);
 
+  useEffect(() => {
+    if (resetTrigger && resetTrigger > 0) {
+      setMethod('GET');
+      setUrl('');
+      setOpenApiJson('');
+      setBodyType('json');
+      setResponseType('json');
+      setHeaderRows([]);
+      setPathParamRows([]);
+      setQueryParamRows([]);
+      setBodyRows([]);
+      setResponseRows([]);
+    }
+  }, [resetTrigger]);
+
   const renderActiveEditor = () => {
     if (activeRequestTab === 'params') {
       return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '1rem', backgroundColor: '#070b14' }}>
-          <FieldTableEditor title="Path Params" subtitle="Values embedded in the route" badge="Auto-detected" rows={pathParamRows} onRowsChange={setPathParamRows} />
-          <FieldTableEditor title="Query Params" subtitle="Values after ?" badge="Optional" rows={queryParamRows} onRowsChange={setQueryParamRows} />
+          <FieldTableEditor title="Path Params" subtitle="Auto-detected from URL (like /stores/{storeId}/orders)" badge="Auto-detected" rows={pathParamRows} onRowsChange={setPathParamRows} />
+          <FieldTableEditor title="Query Params" subtitle="Values after ? (like ?couponCode=SPRING)" badge="Optional" rows={queryParamRows} onRowsChange={setQueryParamRows} />
         </div>
       );
     }
@@ -128,7 +145,7 @@ const InputSection: React.FC<InputSectionProps> = ({ onSpecChange }) => {
           <div style={{ borderRadius: '0.5rem', border: '1px solid var(--color-border)', padding: '1rem' }}>
             <label style={{ display: 'block', maxWidth: '320px' }}>
               <span style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.025em', color: '#94a3b8' }}>Response Type</span>
-              <select className="input-field" style={{ height: '2.5rem' }} value={responseType} onChange={(e) => setResponseType(e.target.value as ResponseType)}>
+              <select className="input-field" style={{ height: '2.5rem', minWidth: '130px', padding: '0 0.5rem' }} value={responseType} onChange={(e) => setResponseType(e.target.value as ResponseType)}>
                 <option value="json">JSON (json)</option>
                 <option value="text">Text (text)</option>
               </select>
@@ -143,9 +160,9 @@ const InputSection: React.FC<InputSectionProps> = ({ onSpecChange }) => {
 
   return (
     <section style={{ marginBottom: '2rem' }}>
-      <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
-        <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--color-border)' }}>
-          <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '1rem' }}>
+      <div className="card" style={{ padding: '0', overflow: 'hidden', border: '1px solid var(--color-border)', marginBottom: '1rem' }}>
+        <div style={{ padding: '1.5rem', borderBottom: activeTab === 'OPENAPI' ? '1px solid var(--color-border)' : 'none' }}>
+          <div style={{ display: 'flex', gap: '1rem', marginBottom: activeTab === 'OPENAPI' ? '1.5rem' : '0', borderBottom: activeTab === 'OPENAPI' ? '1px solid var(--color-border)' : 'none', paddingBottom: activeTab === 'OPENAPI' ? '1rem' : '0' }}>
             <button className={activeTab === 'MANUAL' ? 'btn-primary' : 'btn-secondary'} onClick={() => setActiveTab('MANUAL')} style={{ padding: '0.5rem 1rem' }}>
               Manual Input
             </button>
@@ -174,9 +191,15 @@ const InputSection: React.FC<InputSectionProps> = ({ onSpecChange }) => {
               )}
             </div>
           )}
+        </div>
 
+        <div style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--color-border)', backgroundColor: '#0f172a' }}>
+          <h2 style={{ fontSize: '0.875rem', fontWeight: 600, color: '#f1f5f9', margin: 0 }}>Endpoint</h2>
+          <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0.25rem 0 0 0' }}>Choose the API method and route.</p>
+        </div>
+        <div style={{ padding: '1rem', backgroundColor: '#070b14' }}>
           <div style={{ display: 'flex', gap: '1rem' }}>
-            <select className="input-field" style={{ width: '120px', height: '2.5rem' }} value={method} onChange={(e) => setMethod(e.target.value as any)}>
+            <select className="input-field" style={{ width: '130px', height: '2.5rem', padding: '0 0.5rem', lineHeight: '1.5' }} value={method} onChange={(e) => setMethod(e.target.value as any)}>
               <option value="GET">GET</option>
               <option value="POST">POST</option>
               <option value="PUT">PUT</option>
@@ -186,9 +209,13 @@ const InputSection: React.FC<InputSectionProps> = ({ onSpecChange }) => {
             <input className="input-field" style={{ height: '2.5rem' }} placeholder="e.g. /api/users/{id}" value={url} onChange={(e) => handleUrlChange(e.target.value)} />
           </div>
         </div>
+      </div>
 
-        <div style={{ borderTop: '1px solid var(--color-border)' }}>
-          <div style={{ display: 'flex', minHeight: '2.5rem', overflowX: 'auto', borderBottom: '1px solid var(--color-border)', backgroundColor: 'rgba(15, 23, 42, 0.8)', fontSize: '0.75rem' }}>
+      {generatorSection}
+
+      <div className="card" style={{ padding: '0', overflow: 'hidden', border: '1px solid var(--color-border)' }}>
+        <div>
+          <div style={{ display: 'flex', minHeight: '2.5rem', overflowX: 'auto', overflowY: 'hidden', borderBottom: '1px solid #1e2d4a', backgroundColor: 'rgba(15, 23, 42, 0.8)', fontSize: '0.75rem' }}>
             {REQUEST_TABS.map((tab) => {
               const active = tab.key === activeRequestTab;
               return (
@@ -197,8 +224,22 @@ const InputSection: React.FC<InputSectionProps> = ({ onSpecChange }) => {
                   type="button" 
                   onClick={() => setActiveRequestTab(tab.key)}
                   style={{
-                    display: 'flex', flexShrink: 0, alignItems: 'center', gap: '0.5rem', borderRight: '1px solid var(--color-border)', padding: '0 1rem', fontWeight: 600, transition: 'all 0.2s', backgroundColor: 'transparent', cursor: 'pointer',
-                    ...(active ? { borderTop: '2px solid var(--color-cyan)', color: '#f1f5f9', backgroundColor: '#0b1020' } : { borderTop: '2px solid transparent', color: '#64748b' })
+                    display: 'flex', flexShrink: 0, alignItems: 'center', gap: '0.5rem', fontWeight: 600, transition: 'all 0.2s', cursor: 'pointer', fontFamily: 'var(--font-mono)',
+                    appearance: 'none', WebkitAppearance: 'none', outline: 'none', border: 'none', background: 'transparent',
+                    borderRight: '1px solid #1e2d4a',
+                    ...(active 
+                      ? { 
+                          borderTop: '2px solid #00d4ff', 
+                          color: '#f1f5f9', 
+                          backgroundColor: '#0b1020',
+                        } 
+                      : { 
+                          borderTop: '2px solid transparent',
+                          color: '#64748b', 
+                          backgroundColor: 'transparent' 
+                        }
+                    ),
+                    padding: '0 1rem',
                   }}
                   onMouseOver={(e) => { if (!active) e.currentTarget.style.color = '#cbd5e1'; }}
                   onMouseOut={(e) => { if (!active) e.currentTarget.style.color = '#64748b'; }}
@@ -208,6 +249,9 @@ const InputSection: React.FC<InputSectionProps> = ({ onSpecChange }) => {
               );
             })}
           </div>
+        </div>
+
+        <div style={{ backgroundColor: '#070b14' }}>
           {renderActiveEditor()}
         </div>
       </div>

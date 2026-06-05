@@ -1,5 +1,5 @@
 import type { ParsedApiSpec } from '../../types';
-import { generateMockJsonString, generatePythonDict, getFirstRequiredField } from '../mockDataGenerator';export const kotlinKtorGenerator = {
+import { generateMockJsonString, getFirstRequiredField } from '../mockDataGenerator';export const kotlinKtorGenerator = {
   generateTest(spec: ParsedApiSpec): string {
     return `package com.example.tests
 

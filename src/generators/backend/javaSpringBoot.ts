@@ -1,5 +1,5 @@
 import type { ParsedApiSpec } from '../../types';
-import { generateMockJsonString, generatePythonDict, getFirstRequiredField } from '../mockDataGenerator';export const javaSpringBootGenerator = {
+import { generateMockJsonString, getFirstRequiredField } from '../mockDataGenerator';export const javaSpringBootGenerator = {
   generateTest(spec: ParsedApiSpec): string {
     const url = spec.url;
     const method = spec.method.toLowerCase();

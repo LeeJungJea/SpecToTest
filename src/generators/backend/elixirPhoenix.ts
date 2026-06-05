@@ -1,5 +1,5 @@
 import type { ParsedApiSpec } from '../../types';
-import { generateMockJsonString, generatePythonDict, getFirstRequiredField } from '../mockDataGenerator';export const elixirPhoenixGenerator = {
+import { generateMockJsonString, getFirstRequiredField } from '../mockDataGenerator';export const elixirPhoenixGenerator = {
   generateTest(spec: ParsedApiSpec): string {
     return `defmodule MyAppWeb.EndpointTest do
   use MyAppWeb.ConnCase

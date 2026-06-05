@@ -1,4 +1,4 @@
-import type { HttpMethod, ParsedApiSpec, SchemaField, SchemaValueType, BodyType, ResponseType } from '../types';
+import type { HttpMethod, ParsedApiSpec, SchemaField, SchemaValueType } from '../types';
 
 export interface OpenAPIEndpoint {
   id: string;

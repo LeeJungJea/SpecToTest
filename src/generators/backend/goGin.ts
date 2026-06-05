@@ -1,5 +1,5 @@
 import type { ParsedApiSpec } from '../../types';
-import { generateMockJsonString, generatePythonDict, getFirstRequiredField } from '../mockDataGenerator';export const goGinGenerator = {
+import { generateMockJsonString, getFirstRequiredField } from '../mockDataGenerator';export const goGinGenerator = {
   generateTest(spec: ParsedApiSpec): string {
     return `package tests
 

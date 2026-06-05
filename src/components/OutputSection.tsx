@@ -28,7 +28,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ code, filename }) => {
       }}>
         <div>
           <h2 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', color: 'var(--color-text)' }}>No test code generated yet</h2>
-          <p>Click Generate Test Code on the left to see the result here.</p>
+          <p>Click Generate on the left to see the result here.</p>
         </div>
       </div>
     );

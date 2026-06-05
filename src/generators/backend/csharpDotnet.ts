@@ -1,5 +1,5 @@
 import type { ParsedApiSpec } from '../../types';
-import { generateMockJsonString, generatePythonDict, getFirstRequiredField } from '../mockDataGenerator';export const csharpDotnetGenerator = {
+import { generateMockJsonString, getFirstRequiredField } from '../mockDataGenerator';export const csharpDotnetGenerator = {
   generateTest(spec: ParsedApiSpec): string {
     return `using System.Net;
 using System.Net.Http;

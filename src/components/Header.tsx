@@ -10,8 +10,7 @@ const Header: React.FC = () => {
       justifyContent: 'space-between',
       borderBottom: '1px solid #1e293b',
       backgroundColor: '#020617',
-      padding: '0 1rem',
-      fontFamily: 'Inter, ui-sans-serif, system-ui'
+      padding: '0 1rem'
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
         <div style={{ display: 'flex', gap: '0.375rem' }}>

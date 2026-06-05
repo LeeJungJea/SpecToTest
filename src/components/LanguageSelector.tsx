@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, ReactNode } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   SiReact, SiNextdotjs, SiVuedotjs, SiNuxt, SiAngular, SiSvelte, SiSolid, SiPreact,
   SiJavascript, SiTypescript, SiSpringboot, SiNodedotjs, SiFastapi, SiGo, 
@@ -149,16 +149,16 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ onLanguageSelect })
   };
 
   const currentList = activeTab === 'frontend' ? frontendLanguages : backendLanguages;
-  const currentLangObj = currentList.find(l => l.id === selectedLang);
 
   return (
-    <section className="card" style={{ marginBottom: '2rem' }}>
-      <div style={{ paddingBottom: '0.75rem', borderBottom: '1px solid var(--color-border)', marginBottom: '1rem' }}>
-        <h2 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.25rem' }}>Generators</h2>
-        <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>Select stack and output target.</p>
+    <section className="card" style={{ padding: '0', marginBottom: '1rem', overflow: 'hidden' }}>
+      <div style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--color-border)' }}>
+        <h2 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--color-text)', margin: 0 }}>Generators</h2>
+        <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', margin: '0.25rem 0 0 0' }}>Select stack and output target.</p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+      <div style={{ padding: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
         <div>
           <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.025em', color: '#94a3b8', marginBottom: '0.5rem' }}>Stack</label>
           <Dropdown options={STACK_OPTIONS} value={activeTab} onChange={handleTabChange} />
@@ -168,24 +168,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ onLanguageSelect })
           <Dropdown options={currentList} value={selectedLang} onChange={handleLangChange} />
         </div>
       </div>
-      
-      {currentLangObj && (
-        <div style={{
-          marginTop: '1rem',
-          paddingTop: '1rem',
-          borderTop: '1px solid var(--color-border)',
-          fontSize: '0.85rem',
-          color: 'var(--color-text-muted)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem'
-        }}>
-          <span style={{ display: 'inline-flex', alignItems: 'center' }}>{currentLangObj.icon}</span>
-          <span>
-            <strong style={{ color: 'var(--color-text)' }}>{currentLangObj.name}</strong> → {currentLangObj.testStack}
-          </span>
-        </div>
-      )}
+      </div>
     </section>
   );
 };

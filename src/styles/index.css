@@ -9,6 +9,7 @@
   --color-text: #e2e8f0;
   --color-text-muted: #64748b;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  color-scheme: dark;
 }
 
 * {
@@ -37,6 +38,11 @@ input, textarea, select, button {
   font-family: var(--font-mono);
 }
 
+select option {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
 .input-field {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.2);
@@ -52,6 +58,7 @@ input, textarea, select, button {
   border-color: var(--color-cyan);
   box-shadow: 0 0 10px var(--color-cyan-glow);
 }
+
 
 .btn-primary {
   background-color: rgba(0, 212, 255, 0.1);
@@ -91,8 +98,21 @@ input, textarea, select, button {
 .card {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: 0.5rem;
   padding: 1.5rem;
+}
+
+.card h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.card p {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
 }
 
 /* Layout Grid for Split Panels */
@@ -127,3 +147,32 @@ input, textarea, select, button {
 /* Animations */
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 .animate-blink { animation: blink 1s step-end infinite; }
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #00d4ff;
+}
+
+input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 5px;
+  height: 9px;
+  border: solid #0b1020;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
